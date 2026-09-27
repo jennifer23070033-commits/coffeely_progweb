@@ -1,32 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coffelly - Cafetería</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coffeely - Menú de Desayunos</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f9fa; padding: 20px; }
+    h1 { text-align: center; color: #4a2c2a; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+    .card { background: white; border-radius: 10px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-top: 4px solid #8b5a2b; }
+    .card h3 { margin-top: 0; color: #333; }
+    .precio { font-weight: bold; color: #27ae60; font-size: 1.2em; }
+    .btn { background: #8b5a2b; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; }
+    .btn:hover { background: #6f4721; }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>Bienvenido a Coffelly ☕</h1>
-        <p>El mejor café para acompañar tu día.</p>
-    </header>
+  <h1>Menú de Desayunos - Coffeely</h1>
+  <div id="contenedor-productos" class="grid">
+    <p>Cargando productos desde la base de datos...</p>
+  </div>
 
-    <main>
-        <section>
-            <h2>Nuestro Menú</h2>
-            <ul>
-                <li>Café Americano</li>
-                <li>Cappuccino</li>
-                <li>Espresso</li>
-                <li>Postres y Repostería</li>
-            </ul>
-        </section>
-    </main>
+  <script>
+    // Petición a la API de Node.js
+    fetch('http://localhost:3000/api/productos')
+      .then(res => res.json())
+      .then(productos => {
+        const contenedor = document.getElementById('contenedor-productos');
+        contenedor.innerHTML = ''; // Limpiar mensaje de carga
 
-    <footer>
-        <p>&copy; 2026 Coffelly. Todos los derechos reservados.</p>
-    </footer>
-
+        productos.forEach(prod => {
+          contenedor.innerHTML += `
+            <div class="card">
+              <h3>${prod.nombre}</h3>
+              <p>${prod.descripcion}</p>
+              <p class="precio">$${parseFloat(prod.precio).toFixed(2)} MXN</p>
+              <button class="btn">Agregar al pedido</button>
+            </div>
+          `;
+        });
+      })
+      .catch(err => {
+        console.error('Error:', err);
+        document.getElementById('contenedor-productos').innerHTML = '<p>Error al cargar el menú.</p>';
+      });
+  </script>
 </body>
 </html>
