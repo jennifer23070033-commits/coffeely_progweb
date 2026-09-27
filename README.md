@@ -12,4 +12,5 @@ Proyecto web full-stack para la gestión y visualización de productos en la caf
 
 1. **Clonar el repositorio:**
    ```bash
-  git clone https://github.com/jennifer23070033-commits/coffelly_progweb.git
+   git clone https://github.com/jennifer23070033-commits/coffelly_progweb.git
+   cd coffelly_progweb
