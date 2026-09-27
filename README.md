@@ -1,6 +1,6 @@
 # Coffeely - Sistema Web para Cafetería
 
-Proyecto web full-stack para la gestión y visualización de productos en la cafetería escolar "Coffeely".
+Proyecto web full-stack para la gestión y visualización de productos en la cafetería del Tecnologico "Coffeely".
 
 ## 🛠️ Tecnologías utilizadas
 * **Frontend:** HTML5, CSS3, JavaScript (Fetch API)
