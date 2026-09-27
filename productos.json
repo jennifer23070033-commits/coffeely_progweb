@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "nombre": "Café Americano",
+    "descripcion": "Café de grano recién molido de la mejor calidad.",
+    "precio": 35.00
+  },
+  {
+    "id": 2,
+    "nombre": "Capuchino Tradicional",
+    "descripcion": "Espresso con leche al vapor y una capa de espuma.",
+    "precio": 45.00
+  },
+  {
+    "id": 3,
+    "nombre": "Panini de Jamón y Queso",
+    "descripcion": "Sándwich a la plancha con queso derretido y jamón.",
+    "precio": 75.00
+  }
+]

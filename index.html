@@ -23,28 +23,31 @@
   </div>
 
   <script>
-    // Petición a la API de Node.js
-    fetch('http://localhost:3000/api/productos')
-      .then(res => res.json())
-      .then(productos => {
-        const contenedor = document.getElementById('contenedor-productos');
-        contenedor.innerHTML = ''; // Limpiar mensaje de carga
+  // Cambiamos 'http://localhost:3000/api/productos' por './productos.json'
+  fetch('./productos.json')
+    .then(res => {
+      if (!res.ok) throw new Error('No se pudo cargar el archivo');
+      return res.json();
+    })
+    .then(productos => {
+      const contenedor = document.getElementById('contenedor-productos');
+      contenedor.innerHTML = ''; // Limpiar mensaje de carga
 
-        productos.forEach(prod => {
-          contenedor.innerHTML += `
-            <div class="card">
-              <h3>${prod.nombre}</h3>
-              <p>${prod.descripcion}</p>
-              <p class="precio">$${parseFloat(prod.precio).toFixed(2)} MXN</p>
-              <button class="btn">Agregar al pedido</button>
-            </div>
-          `;
-        });
-      })
-      .catch(err => {
-        console.error('Error:', err);
-        document.getElementById('contenedor-productos').innerHTML = '<p>Error al cargar el menú.</p>';
+      productos.forEach(prod => {
+        contenedor.innerHTML += `
+          <div class="card">
+            <h3>${prod.nombre}</h3>
+            <p>${prod.descripcion}</p>
+            <p class="precio">$${parseFloat(prod.precio).toFixed(2)} MXN</p>
+            <button class="btn">Agregar al pedido</button>
+          </div>
+        `;
       });
-  </script>
+    })
+    .catch(err => {
+      console.error('Error:', err);
+      document.getElementById('contenedor-productos').innerHTML = '<p>Error al cargar el menú.</p>';
+    });
+</script>
 </body>
 </html>
