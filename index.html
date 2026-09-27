@@ -1,53 +1,74 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Coffeely - Menú de Desayunos</title>
-  <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f9fa; padding: 20px; }
-    h1 { text-align: center; color: #4a2c2a; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
-    .card { background: white; border-radius: 10px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-top: 4px solid #8b5a2b; }
-    .card h3 { margin-top: 0; color: #333; }
-    .precio { font-weight: bold; color: #27ae60; font-size: 1.2em; }
-    .btn { background: #8b5a2b; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; }
-    .btn:hover { background: #6f4721; }
-  </style>
+  <!-- Tailwind CSS desde CDN para diseño responsivo -->
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-stone-100 text-stone-800 antialiased font-sans min-h-screen">
 
-  <h1>Menú de Desayunos - Coffeely</h1>
-  <div id="contenedor-productos" class="grid">
-    <p>Cargando productos desde la base de datos...</p>
-  </div>
+  <!-- PANTALLA DE INICIO (Nombre de la cafetería y Botón al Menú) -->
+  <section class="min-h-screen flex flex-col justify-center items-center text-center px-4 bg-amber-950 text-white">
+    <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight text-amber-400 mb-4">
+      Coffeely ☕
+    </h1>
+    <p class="text-lg sm:text-2xl text-amber-100 max-w-xl mb-8 font-light">
+      Bienvenido. Elige tu desayuno favorito y comienza el día con el mejor sabor.
+    </p>
+    <!-- Botón que desplaza suavemente hacia la sección #menu-seccion -->
+    <a href="#menu-seccion" 
+       class="bg-amber-500 hover:bg-amber-400 text-amber-950 font-bold text-lg px-8 py-4 rounded-full shadow-lg transition-all transform hover:scale-105">
+      Ver Menú de Desayunos 👇
+    </a>
+  </section>
 
+  <!-- SECCIÓN DEL MENÚ (Tu menú adaptable a todas las pantallas) -->
+  <section id="menu-seccion" class="max-w-6xl mx-auto px-4 py-16">
+    <h2 class="text-3xl sm:text-4xl font-bold text-center text-amber-900 mb-10">
+      Menú de Desayunos
+    </h2>
+
+    <!-- Contenedor Responsivo (1 col en cel, 2 en tablet, 3 en PC) -->
+    <div id="contenedor-productos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <p class="col-span-full text-center text-stone-500 text-lg">Cargando productos...</p>
+    </div>
+  </section>
+
+  <!-- Lógica Fetch intacta -->
   <script>
-  // Cambiamos 'http://localhost:3000/api/productos' por './productos.json'
-  fetch('./productos.json')
-    .then(res => {
-      if (!res.ok) throw new Error('No se pudo cargar el archivo');
-      return res.json();
-    })
-    .then(productos => {
-      const contenedor = document.getElementById('contenedor-productos');
-      contenedor.innerHTML = ''; // Limpiar mensaje de carga
+    // Cambiamos 'http://localhost:3000/api/productos' por './productos.json'
+    fetch('./productos.json')
+      .then(res => {
+        if (!res.ok) throw new Error('No se pudo cargar el archivo');
+        return res.json();
+      })
+      .then(productos => {
+        const contenedor = document.getElementById('contenedor-productos');
+        contenedor.innerHTML = ''; // Limpiar mensaje de carga
 
-      productos.forEach(prod => {
-        contenedor.innerHTML += `
-          <div class="card">
-            <h3>${prod.nombre}</h3>
-            <p>${prod.descripcion}</p>
-            <p class="precio">$${parseFloat(prod.precio).toFixed(2)} MXN</p>
-            <button class="btn">Agregar al pedido</button>
-          </div>
-        `;
+        productos.forEach(prod => {
+          contenedor.innerHTML += `
+            <div class="bg-white rounded-2xl p-6 shadow-md border-t-4 border-amber-800 flex flex-col justify-between hover:shadow-xl transition-shadow">
+              <div>
+                <h3 class="text-xl font-bold text-stone-800 mb-2">${prod.nombre}</h3>
+                <p class="text-stone-600 text-sm mb-4 leading-relaxed">${prod.descripcion}</p>
+              </div>
+              <div>
+                <p class="text-emerald-600 font-extrabold text-xl mb-4">$${parseFloat(prod.precio).toFixed(2)} MXN</p>
+                <button class="w-full bg-amber-800 hover:bg-amber-900 text-white font-semibold py-2.5 px-4 rounded-xl transition-colors">
+                  Agregar al pedido
+                </button>
+              </div>
+            </div>
+          `;
+        });
+      })
+      .catch(err => {
+        console.error('Error:', err);
+        document.getElementById('contenedor-productos').innerHTML = '<p class="col-span-full text-center text-red-500">Error al cargar el menú.</p>';
       });
-    })
-    .catch(err => {
-      console.error('Error:', err);
-      document.getElementById('contenedor-productos').innerHTML = '<p>Error al cargar el menú.</p>';
-    });
-</script>
+  </script>
 </body>
 </html>
